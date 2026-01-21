@@ -3,6 +3,7 @@ import {useCallback, useEffect, useMemo, useState} from "react";
 import {fetchProducts} from "../../store/slices/productsStore";
 import {selectProducts, selectProductsLoading, selectProductsStatus} from "../../store/selectors";
 import ProductCard from "./ProductCard";
+import {useProductsFilter} from "../hooks/useProductsFilter";
 
 function ProductsList() {
     const dispatch = useDispatch()
@@ -19,18 +20,11 @@ function ProductsList() {
         dispatch(fetchProducts())
     }, [dispatch])
 
-    const filteredProducts = useMemo(() => {
-        if (!products.length) return [];
-        return products.filter(product => {
-            const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-            const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory
-            return matchesSearch && matchesCategory
-        }).sort((a, b) => {
-            if (sortBy === 'name') return a.name.localeCompare(b.name)
-            if (sortBy === 'price') return a.price - b.price
-            return 0
-        })
-    }, [products, searchTerm, selectedCategory, sortBy])
+    const filteredProducts = useProductsFilter(products, {
+        searchTerm: searchTerm,
+        selectedCategory: selectedCategory,
+        sortBy: sortBy,
+    });
 
     const handleSearchChange = useCallback((e) => {
         setSearchTerm(e.target.value)
