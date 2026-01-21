@@ -25,6 +25,45 @@ function Cart() {
         }, 1000)
     }
 
+    const renderCartItems = () => {
+        if (isEmpty) return <p>Корзина пуста</p>;
+        else {
+            return cart.map(item => (
+                <CartProductCard key={item.id} product={item} />
+                ))
+        }
+    }
+
+    const renderCartFooter = () => {
+        return <div className="cart-footer">
+            <div className="total">Итого: ${totalPrice}</div>
+            <button
+                className="checkout-btn"
+                onClick={handleCheckout}
+                disabled={isEmpty || showCheckout}
+            >
+                {showCheckout ? 'Оформляем...' : 'Оформить заказ'}
+            </button>
+        </div>
+    }
+
+    const renderCartDropdown = () => {
+        if (!isOpen) return null;
+
+        return <div className="cart-dropdown">
+            <div className="cart-header">
+                <h3>Корзина</h3>
+                <button onClick={() => setIsOpen(false)}>×</button>
+            </div>
+
+            <div className="cart-items">
+                {renderCartItems()}
+            </div>
+
+            {renderCartFooter()}
+        </div>
+    }
+
     return (
         <div className="cart">
             <button
@@ -34,35 +73,7 @@ function Cart() {
                 Корзина ({cartCount})
             </button>
 
-            {isOpen && (
-                <div className="cart-dropdown">
-                    <div className="cart-header">
-                        <h3>Корзина</h3>
-                        <button onClick={() => setIsOpen(false)}>×</button>
-                    </div>
-
-                    <div className="cart-items">
-                        {isEmpty ? (
-                            <p>Корзина пуста</p>
-                        ) : (
-                            cart.map(item => (
-                                <CartProductCard key={item.id} product={item} />
-                            ))
-                        )}
-                    </div>
-
-                    <div className="cart-footer">
-                        <div className="total">Итого: ${totalPrice}</div>
-                        <button
-                            className="checkout-btn"
-                            onClick={handleCheckout}
-                            disabled={isEmpty || showCheckout}
-                        >
-                            {showCheckout ? 'Оформляем...' : 'Оформить заказ'}
-                        </button>
-                    </div>
-                </div>
-            )}
+            {renderCartDropdown()}
         </div>
     )
 }
