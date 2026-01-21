@@ -5,9 +5,9 @@ import {useCallback} from "react";
 function ProductCard({product}) {
     const dispatch = useDispatch()
 
-    const handleAddToCart = useCallback((product) => {
+    const handleAddToCart = (product) => {
         dispatch(addToCart(product));
-    }, [])
+    }
 
     return (
         <div className="product-card">

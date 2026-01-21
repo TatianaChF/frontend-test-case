@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useCallback, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {selectCart, selectCartCount, selectTotalPrice} from "../../store/selectors";
 import {clearCart} from "../../store/slices/cartStore";
 import CartProductCard from "./CartProductCard";
@@ -15,7 +15,7 @@ function Cart() {
 
     const isEmpty = useMemo(() => cart.length === 0, [cart]);
 
-    const handleCheckout = useCallback(() => {
+    const handleCheckout = () => {
         setShowCheckout(true)
         setTimeout(() => {
             alert('Заказ оформлен!')
@@ -23,7 +23,7 @@ function Cart() {
             setShowCheckout(false)
             setIsOpen(false)
         }, 1000)
-    }, [])
+    }
 
     return (
         <div className="cart">

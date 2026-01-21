@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchProducts} from "../../store/slices/productsStore";
 import {selectProducts, selectProductsLoading, selectProductsStatus} from "../../store/selectors";
 import ProductCard from "./ProductCard";
-import {useProductsFilter} from "../hooks/useProductsFilter";
+import {useProductsFilter} from "../../hooks/useProductsFilter";
 
 function ProductsList() {
     const dispatch = useDispatch()
@@ -26,17 +26,17 @@ function ProductsList() {
         sortBy: sortBy,
     });
 
-    const handleSearchChange = useCallback((e) => {
+    const handleSearchChange = (e) => {
         setSearchTerm(e.target.value)
-    }, [])
+    }
 
-    const handleCategoryChange = useCallback((e) => {
+    const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value)
-    }, [])
+    }
 
-    const handleSortChange = useCallback((e) => {
+    const handleSortChange = (e) => {
         setSortBy(e.target.value)
-    }, [])
+    }
 
     if (loading) {
         return <div className="loading">Загрузка товаров...</div>

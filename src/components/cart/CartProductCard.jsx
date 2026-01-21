@@ -5,17 +5,17 @@ import {useCallback} from "react";
 function CartProductCard({product}) {
     const dispatch = useDispatch()
 
-    const handleRemoveItem = useCallback((id) => {
+    const handleRemoveItem = (id) => {
         dispatch(removeFromCart(id))
-    }, [])
+    }
 
-    const handleUpdateQuantity = useCallback((id, quantity) => {
+    const handleUpdateQuantity = (id, quantity) => {
         if (quantity <= 0) {
             handleRemoveItem(id)
             return
         }
         dispatch(updateQuantity({id, quantity}))
-    }, [])
+    }
 
     return (
         <div className="cart-item">
